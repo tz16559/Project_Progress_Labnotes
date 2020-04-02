@@ -1,0 +1,1554 @@
+\clearpage
+\noindent\textbf{27 Jan 2020, Monday}
+\\
+\\
+Catch up the work done from the Teaching Block 1:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_B0/invmass_ini}
+\caption{The binned distributions of simulated $B^0$ events in the variables of $m(K^+\pi^-)$ (left) and $m(D^0\bar{D^0})$ (right) for different values of $C_T$.}
+\label{fig1}
+\end{figure}
+\\
+A summary of previous work:
+\begin{itemize}
+    \item Looked at the MC data file of the decay contains the four-momentum of the particles generated from MINT, and counted the number of events with $C_T>0$ and $C_T<0$, using $C_T = \Vec{p}_{K^+}\cdot(\Vec{p}_{D^0} \times \Vec{p}_{\bar{D}^0})$.
+    \item Find the triple product asymmetry of MC data: $A_T = (501-499)/(501+499) = 0.002$ (using Eq.\ref{triple_product_asy}).
+    \item Plotted the resonance for the K$\pi$ and $D\bar{D}$ final states with the 1000 events for the $C_T > 0$ and $C_T < 0$ cases. The data given has already been in the rest frame of $B^0$, so no further Lorentz boost is required.
+
+    \item Calculated the invariant mass of $m(D^0\bar{D^0}K^+\pi^-)$ and finding that all the values equal to 5279.4 $MeV/c^2$, which is the mass of $B^0$, which verifies the invariant masses are calculated correctly.
+\end{itemize}
+Next Steps:
+\begin{itemize}
+    \item Find the uncertainties in the triple product asymmetry.
+    \item Fit the binned distributions using the Breit-Wigner distributions
+    \item Find the distribution of other CM variables ($\phi$, helicity angles)
+\end{itemize}
+\\
+\textbf{Triple Product asymmetry}:
+\\
+Denote the triple product asymmetry as:
+\begin{equation}
+    A_T = \frac{N(C_T > 0) - N(C_T < 0)}{N(C_T > 0) + N(C_T < 0)},
+    \label{triple_product_asy}
+\end{equation}
+The error in $N(C_T > 0)$ is $\sqrt{N(C_T > 0)}$ and in $N(C_T < 0)$ is $\sqrt{N(C_T <0)}$ for a large number of samples, given a Poisson distribution. The error in $A_T$ is then:
+\begin{align}
+    \Delta A_T &= \sqrt{\left(\frac{\partial A_T}{\partial N(C_T > 0)}\Delta N(C_T > 0)\right) ^ 2 + \left(\frac{\partial A_T}{\partial N(C_T < 0)}\Delta N(C_T < 0)\right) ^ 2} \\\nonumber
+               &= \sqrt{\left(\frac{2N(C_T < 0)}{(N(C_T > 0) + N(C_T < 0))^2}\right)^2 N(C_T > 0) + \left(\frac{-2N(C_T > 0)}{(N(C_T > 0) + N(C_T < 0))^2}\right)^2 N(C_T < 0)} .
+\end{align}
+The result is $A_T = 0.002 \pm 0.0316$. This error is much larger than the result which indicates that no CP violation is in this sample.
+\clearpage
+\noindent\textbf{28 Jan 2020, Tuesday}
+\\
+\\
+Aiming to find the distribution of the five CM variables:
+\begin{itemize}
+    \item the invariant masses of daughter pairs in the rest frame of $B^0$: $m(D^0\bar{D^0})$, $m(K^+\pi^-)$. This has been found in Fig.\ref{fig1} using $\sqrt{\bm{P}\cdot\bm{P}}$, where $\bm{P}$ is the sum of the 4-momentum of the daughter pairs.
+    \item the cosine of the helicity angles between the daughter particle and the mother-particle $B^0$, in the rest frame of its daughter pairs
+    \begin{itemize}
+        \item $\cos(\theta_{D^0})$, $\theta_{D^0}$ is the angle between the momentum of $D^0$ and $B^0$ in the rest frame of $D^0\bar{D^0}$
+        \item $\cos(\theta_{K^+})$, $\theta_{K^+}$ is the angle between the momentum of $K^+$ and $B^0$ in the rest frame of $K^+\pi^-$
+        \item to boost the momenta to the daughter pair's rest frame:
+        
+        daughter pair's rest frame has four-momentum
+        \begin{equation}
+            \bm{P} = (p_{1x} + p_{2x} ,\;p_{1y} + p_{2y},\;p_{1z} + p_{2z},\;M_1 + M_2) = \bm{p}_1 + \bm{p}_2,
+        \end{equation}
+        the boost vector is then
+        \begin{equation}
+            \Vec{v} = (p_{1x} + p_{2x} ,\;p_{1y} + p_{2y},\;p_{1z} + p_{2z})/(M_1 + M_2) = (\Vec{p_1}+\Vec{p_2})/M.
+        \end{equation}
+        \item $M$ is not the invariant mass of the daughter pair, but the sum of the masses of the pair.
+        \item The boost is performed using the built-in function in \texttt{ROOT}, which has the analytical form \autocite{wiki:xxx}:
+        \begin{equation}
+        \bm{p}'=\left(
+         \begin{matrix}
+         \gamma & -\gamma\bm{\beta}^{T}\\
+         -\gamma\bm{\beta} & \bm{I}+(\gamma-1)\bm{\beta}\bm{\beta}^{T}/\beta^2 
+         \end{matrix}
+         \right)\bm{p},\;\;\;\;\text{where}\;\gamma=\frac{1}{\sqrt{1-\beta^2}},\;\bm{\beta} = \Vec{v}/c.
+        \end{equation}
+        Hence, e.g., $\cos(\theta_{D^0}) = \frac{\Vec{p}'_{D^0}\cdot\Vec{p}'_{B^0}}{|\Vec{p}'_{D^0}||\Vec{p}'_{B^0}|}$.
+        \item particularly check the direction of the boost, sometimes need to add a minus sign before the boost vector. To check if the boost is correct:
+        
+        a. boost the daughter pair's Lorentz vector to its rest frame gives zero in the three-momentum.
+        
+        b. the distribution of the cos(angle) should look uniform and not peak at one side of the graph.
+    \end{itemize}
+    \item the angle $\phi$ between the planes of the daughter pairs in the rest frame of mother particle $B^0$. In this case, the angle between the plane $D^0\bar{D}^0$ and the plane $K^+\pi^-$: $\phi = \cos^{-1}\left(\frac{(\Vec{p}_{D^0}\times\Vec{p}_{\bar{D}^0})\cdot(\Vec{p}_{K^+}\times\Vec{p}_{\pi^-})}{|\Vec{p}_{D^0}\times\Vec{p}_{\bar{D}^0}||\Vec{p}_{K^+}\times\Vec{p}_{\pi^-}|}\right)$.
+\end{itemize}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{decay_geometry}
+\caption{(a) The four-body $B^0$ decay geometry in the rest frame of $B^0$. (b) Definition of the helicity angles $\theta_{D^0}$ and $\theta_{K^+}$, and the decay-plane angle $\phi$.}
+\label{decay_geometry}
+\end{figure}
+\clearpage
+The distributions were found with 100 bins, where the error bars come from the default option when drawing the histogram in \texttt{ROOT}. The data has been separated for different values of $C_T$ as shown in blue and red data points. The helicity angles distributed uniformly and the 3-momenta of the daughter pairs in their own frame is zero, which indicates the boost is performed correctly. 
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.46\linewidth]{CM_variables_B0/invmass_D0Dbar0}
+\caption{The binned distributions of invariant mass $m(D^0\bar{D^0})$ for different values of $C_T$.}
+\label{invdd}
+\end{figure}
+
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.46\linewidth]{CM_variables_B0/invmass_KpPim}
+\caption{The binned distributions of invariant mass $m(K^+\pi^-)$ for different values of $C_T$.}
+\label{invkpi}
+\end{figure}
+
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.46\linewidth]{CM_variables_B0/helangle_D0Dbar0}
+\caption{The binned distributions of helicity angle $\cos(\theta_{D^0})$ for different values of $C_T$.}
+\label{thetadd}
+\end{figure}
+
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.46\linewidth]{CM_variables_B0/helangle_KpPim}
+\caption{The binned distributions of helicity angle $\cos(\theta_{K^+})$ for different values of $C_T$.}
+\label{thetakpi}
+\end{figure}
+
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.43\linewidth]{CM_variables_B0/planeangle}
+\caption{The binned distributions of the angle $\phi$ bbetween the plane $D^0\bar{D^0}$ and the plane $K^+\pi^-$ for different values of $C_T$.}
+\label{phi}
+\end{figure}
+\clearpage
+
+\noindent\textbf{29 Jan 2020, Wednesday}
+\\
+\\
+Fitting the invariant mass distributions using the relativistic Breit-Wigner distribution\autocite{wiki:xxxx}:
+\begin{equation}
+    f(E) = \frac{k}{(E^2-M^2)^2 + M^2\Gamma^2},
+    \label{bw}
+\end{equation}
+\indent $k = \frac{2\sqrt{2}M\Gamma\gamma}{\pi\sqrt{M^2+\gamma}}$,
+\\
+\indent $\gamma = \sqrt{M^2(M^2+\Gamma^2)}$,
+\\
+\indent $E$ - center of mass energy that produce the resonance,
+\\
+\indent $M$ - mass of the resonance,
+\\
+\indent $\Gamma$ - resonance width.
+\\
+\\
+The fitting was performed using \texttt{ROOT} framework by defining a class for the fitting function. The left and right limit of the fit was roughly approximated from the left and right ends of the peaks in the histogram. This gives individual fitting for each peak. The initial values for the mass and the width were obtained from PDG.
+\\
+\\
+The fitted results are given by:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.86\linewidth]{CM_variables_B0/invmass_D0Dbar0_fit}
+\caption{The binned distributions of invariant mass $m(D^0\bar{D^0})$ for different values of $C_T$ fitted using Eq.\ref{bw}}
+\label{DD_fit}
+\end{figure}
+\\
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.86\linewidth]{CM_variables_B0/invmassdd_fitdata}
+\caption{The fitted values from the curves in MeV}
+\label{DD_fitdata}
+\end{figure}
+
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.86\linewidth]{CM_variables_B0/invmass_KpPim_fit}
+\caption{The binned distributions of invariant mass $m(K^+\pi^-)$ for different values of $C_T$ fitted using Eq.\ref{bw}}
+\label{kpi_fit}
+\end{figure}
+
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.86\linewidth]{CM_variables_B0/invmasskpi_fitdata}
+\caption{The fitted values from the curves in MeV}
+\label{kpi_fitdata}
+\end{figure}
+
+\clearpage
+\noindent\textbf{30 Jan 2020, Thursday}
+\\
+\\
+To generate more events, an amplitude generator is required - use \texttt{AmpGen}
+\\
+\\
+Start trying to install \href{https://github.com/GooFit/AmpGen#applications}{\texttt{AmpGen}}:
+\\
+\\
+AmpGen is downloaded but not be able to compile it. At the stage of \texttt{make}, there exist the error:
+\\\begin{itemize}
+    \texttt{\seqsplit{ignoring file /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib/libSystem.tbd, file was built for unsupported file format ( 0x2D 0x2D 0x2D 0x20 0x21 0x74 0x61 0x70 0x69 0x2D 0x74 0x62 0x64 0x2D 0x76 0x33 ) which is not the architecture being linked (x86\_64): /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib/libSystem.tbd}}
+    \\
+    \texttt{Undefined symbols for architecture x86\_64:}
+\end{itemize}
+\\
+\\
+One method tried:
+\\
+\\
+Download a different version of the  \href{https://github.com/phracker/MacOSX-SDKs/releases}{sdk}:
+MacOSX10.10.sdk.tzr.xz, which is suggested from \href{https://www.anaconda.com/utilizing-the-new-compilers-in-anaconda-distribution-5/}{here} and \href{https://github.com/ContinuumIO/anaconda-issues/issues/9096}{here}.
+\\
+\\
+Uncompress it to the \texttt{/opt} directory in the laptop:
+
+\texttt{sudo tar xf ~/Downloads/MacOSX10.10.sdk.tar.xz -C /opt}
+\\
+\\
+Add the lines into the file \texttt{\$HOME/.condarc}:
+
+\indent \texttt{conda\_build:}
+
+\indent \indent \texttt{config\_file:$\sim$/.conda/conda\_build\_config.yaml}
+\\
+\\
+Here is more details of using \href{https://docs.conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html#specify-root-dir}{conda\_build}.
+\\
+\\
+Then create the file \texttt{\$HOME/.conda/conda\_build\_config.yaml} and add:
+ 
+\indent \texttt{CONDA\_BUILD\_SYSROOT:}
+ 
+\indent \indent \texttt{- /opt/MacOSX10.10.sdk        \# [osx]}
+\\
+\\
+ - But this doesn't work.
+\clearpage
+
+\noindent\textbf{4 Feb 2020, Tuesday}
+\\
+\\
+\texttt{AmpGen}: now find a way to work from Paras - Remove everything that has been done before and follow the instructions written in the "Installation Notes.ipynb".
+\\
+\\
+\texttt{AmpGen} has been successfully installed - now try to generate and analyse the events for the $D\to K^+K^-\pi^+\pi^-$ decay and check if \texttt{AmpGen} is working correctly.
+The results can be compared with the literature\autocite{Aaij_2014}.
+\\
+\\
+The file contains the amplitude model for the $D\to K^+K^-\pi^+\pi^-$ decay is: \texttt{DtoKKpipi\_v2.opt}. 
+\\
+\\
+Inside the file, the structure is:
+\\
+\\
+\texttt{EventType D0 K+ K- pi+ pi-} 
+\begin{itemize}
+    \item to specify the particles involved in the decay. This can also be specified as an argument in the command line.
+\end{itemize}
+\\
+\\
+\\
+\footnotesize
+\texttt{\#\hspace{9cm}Real / Amplitude\hspace{0.2cm}|\hspace{0.2cm}Imaginary / Phase}
+\\
+\texttt{\#\hspace{9cm}Fix?\hspace{0.2cm}Value\hspace{0.2cm}  Step\hspace{0.2cm}|\hspace{0.2cm} Fix?\hspace{0.2cm}Value\hspace{0.2cm}Step}
+\\
+\\
+\texttt{D0[D]\{K*(1680)0\{K+,pi-\},K*(892)bar0\{K-,pi+\}\}	        \hspace{0.2cm}0\hspace{0.2cm}1.20197\hspace{0.2cm}0.0898679\hspace{0.2cm}0\hspace{0.2cm}-2.44153\hspace{0.2cm}0.0844467}
+
+\normalsize
+\begin{itemize}
+    \item This is one of the intermediate resonances that contribute to the decay: 
+    \\
+    $D^0\to K^{*0}$(1680)($\to K^+\pi^-$)$K^{*0}$(892)($\to K^-\pi^+$). 
+    \item For each resonance, it has an vertex gives the probability of the decay to happen.
+    \item For the six numbers, the left three are the parameters for the real part while the right three are the parameters for the imaginary part of the vertex.
+    \item Each parameter is specified in terms of three numbers: the fix flag, the initial value, and the step size.
+    \item The fix term is to specify whether the initial value is fixed (fix=2) or free (fix=0) ...
+    \item step?
+    \item the [D] specify the spin in the orbital angular momentum in the final states, one can also use [P], [S] ..for different spins.
+\end{itemize}
+\clearpage
+\noindent\textbf{6 Feb 2020, Thursday}
+\\
+\\
+Outputs from AmpGen generated events:
+\\
+\\
+\textbf{1. $\bm{D^0\to K^+K^-\pi^+\pi^-}$}
+\\
+\\
+\indent run the DtoKKpipi\_v2.opt file with 171300 events.
+\\
+\indent $C_T = \Vec{p}_{\pi^-}\cdot(\Vec{p}_{K^+} \times \Vec{p}_{K^-})$
+\\
+\\
+TP Asymmetry $A_T = -0.0740\pm0.0024$
+\\
+\\
+The distributions of CM variables with 100 bins:
+\\
+\\
+The distributions match the results in the literature, which means the code is correct and AmgGen can works properly. 
+
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_D0/invmass_KmKp}
+\caption{The binned distributions of invariant mass $m(K^-K^+)$ for different values of $C_T$.}
+\label{invkk}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_D0/invmass_PimPip}
+\caption{The binned distributions of invariant mass $m(\pi^-\pi^+)$ for different values of $C_T$.}
+\label{invpipi}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_D0/helangle_KmKp}
+\caption{The binned distributions of helicity angle $\cos(\theta_{K^+})$ for different values of $C_T$.}
+\label{thetakk}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_D0/helangle_PimPip}
+\caption{The binned distributions of helicity angle $\cos(\theta_{\pi^+})$ for different values of $C_T$.}
+\label{thetapipi}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_D0/planeangleD0}
+\caption{The binned distributions of the angle $\phi$ bbetween the plane $K^-K^+$ and the plane $\pi^-\pi^+$ for different values of $C_T$.}
+\label{phiD}
+\end{figure}
+\clearpage
+\\
+\\
+\noindent \textbf{2. $\bm{B^0\to D^0\bar{D}^0K^+\pi^-}$}
+\\
+\\
+Use \texttt{AmpGen} to generate $B^0\to D^0\bar{D}^0K^+\pi^-$ events:
+\begin{itemize}
+    \item add \texttt{B0toDDbar0K+pi-.opt} file to \texttt{$\sim$/AmpGen/build/bin/}
+    \item inside \texttt{the B0toDDbar0K+pi-.opt} file, use the resonances from the \texttt{MINT} file (\texttt{4BodyModel.txt}), change the format of the resonance list to match the format of \texttt{.opt} files used in \texttt{AmpGen}.
+    \item inside the \texttt{B0toDDbar0K+pi-.opt} file, change \texttt{kappa0} to \texttt{K(0)*(800)0} - the particle name has been updated in PDG.
+    \item inside the \texttt{B0toDDbar0K+pi-.opt} file, change the non resonance part
+    
+    e.g. change \texttt{D0Dbar0} to \texttt{NonResS0\{D0,Dbar0\}}.
+    
+    [This will improve the speed considerably when including the narrow $D^*$ resonances. It only works if all decays are done in quasi-two-body steps (i.e. $B\to\psi K^*$ as a resonance works, but $B\to D\bar{D}K^*$ doesn’t).]
+    \item inside the \texttt{mass\_width.csv} file, change line 385: J=2, P=+ for particle \texttt{D(s2)(2573)}.
+\end{itemize}
+\\
+\\
+Fit the results for different event files - from \texttt{MINT} and \texttt{AmpGen}... 
+\\
+\\
+\\
+\indent \textbf{a. old results from \texttt{MINT}} - 1000 events: $A_T= 0.002\pm0.0316$
+\begin{itemize}
+    This still uses Eq.\ref{bw} to fit but using a different approach - by summing over the Breit-Wigner functions for each peak. In this case, the events are not enough to make a clear fit for the left figure in Fig.\ref{invddv2}, the right figure in Fig.\ref{invkpiv2}, and the left figure in Fig.\ref{invfit2}. The fitting outcomes for resonance peaks are shown in Fig.\ref{ddkpi_fitdata}. For the successfully fitted peaks, it gives the expected results.
+\end{itemize}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_B0/B0_invmass_fit_output_1000}
+\caption{The fitted values from the curves in Fig.\ref{invddv2},\ref{invkpiv2},\ref{invfit2}(MeV)}
+\label{ddkpi_fitdata}
+\end{figure}
+
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_B0/B0_invmass_D0Dbar0_fit_1000}
+\caption{The binned distributions of invariant mass $m(D^0\bar{D^0})$ for different values of $C_T$.}
+\label{invddv2}
+\end{figure}
+
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_B0/B0_invmass_KpPim_fit_1000}
+\caption{The binned distributions of invariant mass $m(K^+\pi^-)$ for different values of $C_T$.}
+\label{invkpiv2}
+\end{figure}
+
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_B0/B0_invariant_mass_fit_1000}
+\caption{The binned distributions of invariant mass $m(D^0\bar{D^0})$ by combining the data from $C_T<0$ and $C_T>0$.}
+\label{invfit2}
+\end{figure}
+
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_B0/B0_helangle_D0Dbar0_1000}
+\caption{The binned distributions of helicity angle $\cos(\theta_{D^0})$ for different values of $C_T$.}
+\label{thetaddv2}
+\end{figure}
+
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_B0/B0_helangle_KpPim_1000}
+\caption{The binned distributions of helicity angle $\cos(\theta_{K^+})$ for different values of $C_T$.}
+\label{thetakpiv2}
+\end{figure}
+
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_B0/B0_planeangle_1000}
+\caption{The binned distributions of the angle $\phi$ bbetween the plane $D^0\bar{D^0}$ and the plane $K^+\pi^-$ for different values of $C_T$.}
+\label{phiv2}
+\end{figure}
+\clearpage
+\\
+\\
+\textbf{b. AmpGen - 10000 events:} $A_T = 0.0156 \pm 0.0099987$
+\begin{itemize}
+    In order to have better fittings, more events were generated. This fit the data properly with errors being $10^2$ smaller in the fitted parameters. An investigation in the confidence level of $A_T$, the errors in the parameters vs the number of events can be carried out.
+    \\
+    \\
+    For Fig.\ref{thetaddv3}, Fig.\ref{thetakpiv3}, Fig.\ref{phiv3}, it was asked why the peaks are downwards rather than upwards in the LHCb seminar (8th Feb). It is also expected to be more flat for the helicity angles.
+\end{itemize}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_B0/B0_invmass_fit_output_10000}
+\caption{The fitted values from the curves in Fig.\ref{invddv3},\ref{invkpiv3},\ref{invfit3}(MeV)}
+\label{ddkpi_fitdata3}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_B0/B0_invmass_D0Dbar0_fit_10000}
+\caption{The binned distributions of invariant mass $m(D^0\bar{D^0})$ for different values of $C_T$.}
+\label{invddv3}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_B0/B0_invmass_KpPim_fit_10000}
+\caption{The binned distributions of invariant mass $m(K^+\pi^-)$ for different values of $C_T$.}
+\label{invkpiv3}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_B0/B0_invariant_mass_fit_10000}
+\caption{The binned distributions of invariant mass $m(D^0\bar{D^0})$ for different values of $C_T$.}
+\label{invfit3}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_B0/B0_helangle_D0Dbar0_10000}
+\caption{The binned distributions of helicity angle $\cos(\theta_{D^0})$ for different values of $C_T$.}
+\label{thetaddv3}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_B0/B0_helangle_KpPim_10000}
+\caption{The binned distributions of helicity angle $\cos(\theta_{K^+})$ for different values of $C_T$.}
+\label{thetakpiv3}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{CM_variables_B0/B0_planeangle_10000}
+\caption{The binned distributions of the angle $\phi$ between the plane $D^0\bar{D^0}$ and the plane $K^+\pi^-$ for different values of $C_T$.}
+\label{phiv3}
+\end{figure}
+\clearpage
+\noindent\textbf{7 Feb 2020, Friday}
+\\
+\\
+To do list:
+\begin{itemize}
+    \item CP violation for D0 and for B0 decay.
+    \item split the amplitude to account for different spins, first make the 1/3 of the original value and make the phase equal
+    \item check the amount of CP violation vs number of events
+    \item check P violation in several decay modes (all resonances, single resonance, etc)
+    \item check the meaning of K$\sim$, pi\# in the .root file generated (try flipping the sign of the momentum for \_3\_K$\sim$ and \_4\_pi\#) 
+    \\
+    \indent $\Rightarrow$ have got the same results for CM variables
+\end{itemize}
+\\
+\\
+The charge conjugate decays can be generated using a different Seed in AmpGen (e.g. add a line in the .opt file: Seed 6) and inverting the sign of the 3-momenta for the generated MC data. This means initially we have got a particle goes to the (e.g.) +ve direction, and by flipping the sign, the particle goes to the negative direction, but this equivalent to its antiparticle goes to the +ve direction. By doing this for all the particles, we have generated the same decay but with charge-conjugate mesons. (Would there be a better explanation for this?) 
+\\
+\\
+The inverted 3-momentum gives the value of $\bar{C}_T$. To find the triple product asymmetry for the charge-conjugate decays, one need to count the number of events with $-\bar{C}_T>0$ and $-\bar{C}_T<0$.
+\\
+\\
+a. Find the CP asymmetry in the $\bm{D^0\to K^+K^-\pi^+\pi^-}$ decay:
+\\
+\\
+Re-run the \texttt{DtoKKpipi\_v2.opt} file using Seed 5 and 7 with 171300 events, gives
+\\
+\\
+\indent $\bar{A}_T = -0.072563\pm0.0024$, $A_T=-0.073987\pm 0.0024$ (previous results),
+\\
+\indent and, hence $\mathcal{A}_{\mathcal{C}\mathcal{P}} = 0.5 (A_T-\bar{A}_T)= -0.000712 \pm 0.0017$.
+\\
+\\
+This is over a half smaller than the literature \autocite{Aaij_2014}.
+\\
+\\
+b. Find the CP violation in $\bm{B^0\to D^0\bar{D}^0K^+\pi^-}$ decay:
+\\
+\\
+Re-run the \texttt{B0toDDbar0K+pi-.opt} file after adding \texttt{NonResS0}, with $10^4$ events, using Seed 5 and 7, gives
+\\
+\\
+\indent $A_T=0.012\pm0.01$, $\bar{A}_T = 0.0102\pm0.01$,
+\\
+\indent and, hence $\mathcal{A}_{\mathcal{C}\mathcal{P}} = 0.5 (A_T-\bar{A}_T)=0.0009\pm 0.0071$.
+\\
+\\
+For $10^5$ events, with the B0 decay, using Seed 0 (no seed specified) and 8, gives
+\\
+\\
+\indent $A_T = 0.0015 \pm 0.0034$, $\bar{A}_T = -0.00148 \pm 0.0031$,
+\\
+\\
+find $\mathcal{A}_{\mathcal{C}\mathcal{P}} = 0.0015 \pm 0.002$.
+\\
+\\
+All the results are within the uncertainty and show no CP violation.
+\clearpage
+This value of $\mathcal{A}_{\mathcal{C}\mathcal{P}}$ was investigated further for a range of event numbers:
+\\
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{a_cp/acp_primary}
+\caption{The asymmetries calculated for different number of events.}
+\label{acp_nospd}
+\end{figure}
+\\
+It can be seen that the $\mathcal{A}_{\mathcal{C}\mathcal{P}}$ is slightly deviated from zero with errorbars becoming smaller and excluding zero, but the confidence level is less than $2\sigma$, where $\sigma = \mathcal{A}_{\mathcal{C}\mathcal{P}}/\Delta(\mathcal{A}_{\mathcal{C}\mathcal{P}})$. Clearly, more events need to be generated to see the trend of asymmetry and error bars.
+
+\clearpage
+\noindent\textbf{13 Feb 2020, Thursday}
+\\
+\\
+From Paras: [One is that we indeed still have to specify independent couplings of differing spin configurations separately. In practical terms, for the "vector-vector” decays i.e decays to two spin-1 particles (such as $B\to\psi K^*$) we need to specify S P and D waves, there should be examples of this in the $D\to KK\pi\pi$ opt file. We should discuss at some point how to split the amplitude and phase across the components (first instinct: make each amplitude 1/3 of the current value, and make all phases the same).]
+\\
+\\
+The idea is we should take consideration of the different angular momentum states (the S, P, D waves) for the decay modes with two spin-1 particles in the intermediate states. For example, the decay $B^0\to \psi(3770)K^*_0(892)$. The initial state $B^0$ has $J^P = 0^-$ (P-odd), while $\psi(3770)$ and $K^*_0(892)$ both has $J^P=1^-$, where $J$ is the intrinsic spin of the particle. Hence the total spin in the final states can be $S = 0,1,2$. 
+Since the initial state has $J=0$ one need $L+S=0$ in the final state to conserve angular momentum ($L$ is the orbital angular momentum quantum number), which results in $L=0,1,2$ in the final state. This corresponds to value of $S=0,1,2$, and is called S, P and D waves, respectively. The Parity eigenvalue for this decay mode can be calculated from (a deep discussion for this can be found in \autocite{d_Argent_2017}):
+\begin{equation}
+ P = (-1)^L \times \prod\text{(intrinsic parity)} = 
+\begin{cases}
+    (-1)^0(-1)(-1) = +1,& \text{if } L=0\;\;(\text{S waves})\\
+    (-1)^1(-1)(-1) = -1,& \text{if } L=1\;\;(\text{P waves})\\
+    (-1)^2(-1)(-1) = +1,& \text{if } L=2\;\;(\text{D waves})
+\end{cases}
+\end{equation}
+\label{coupling_const}
+Hence, the S and D waves are P-even and the P waves are P-odd, and P violation can be induced from the interference of these waves. The amount of P violation depends on the relative amplitude $A_n$ and phase $\phi_n$ of the waves, where each decay mode with a particular wave has a coupling constant $A_n e^{i\phi_n}$. Thus, the inference amplitudes can be written as:
+\begin{align}
+    \mathcal{I} &= |A_1e^{i\phi_1}+A_2e^{i\phi_2}|^2 \nonumber\\
+    &=(A_1e^{i\phi_1}+A_2e^{i\phi_2})(A_1e^{-i\phi_1}+A_2e^{-i\phi_2})\nonumber\\
+    &={A_1}^2 + {A_2}^2 + A_1A_2(e^{i(\phi_2-\phi_1)}+e^{i(\phi_1-\phi_2)})\nonumber\\
+    &={A_1}^2 + {A_2}^2 + 2A_1A_2\cos(\phi_2-\phi_1)
+\end{align}
+In the \texttt{B0toDDbar0K+pi-.opt} file, the two spin-1 particles are (all have $J^P=1^-$):
+
+$\psi(3770)$ and $K*(892)0$
+
+$\psi(4040)$ and $K*(892)0$
+
+$\psi(4160)$ and $K*(892)0$
+
+$\psi(4415)$ and $K*(892)0$
+\\
+\\
+For a single resonance, 
+
+\texttt{B0\{psi(3770)0\{D0,Dbar0\},K*(892)0\{K+,pi-\}\}\hspace{0.4cm}2\hspace{0.4cm}6.28\hspace{0.4cm}0.05\hspace{0.4cm}2\hspace{0.4cm}0.\hspace{0.4cm}10.}
+\\
+\\
+This was changed by taking 1/3 of the second number column - amplitude):
+
+\texttt{B0[S]\{psi(3770)0\{D0,Dbar0\},K*(892)0\{K+,pi-\}\}\hspace{0.4cm}2\hspace{0.4cm}2.093\hspace{0.4cm}0.05\hspace{0.4cm}2\hspace{0.4cm}0.\hspace{0.4cm}10.}
+
+\texttt{B0[P]\{psi(3770)0\{D0,Dbar0\},K*(892)0\{K+,pi-\}\}\hspace{0.4cm}2\hspace{0.4cm}2.093\hspace{0.4cm}0.05\hspace{0.4cm}2\hspace{0.4cm}0.\hspace{0.4cm}10.}
+
+\texttt{B0[D]\{psi(3770)0\{D0,Dbar0\},K*(892)0\{K+,pi-\}\}\hspace{0.4cm}2\hspace{0.4cm}2.093\hspace{0.4cm}0.05\hspace{0.4cm}2\hspace{0.4cm}0.\hspace{0.4cm}10.}
+\\
+\\
+ - There are no errors generated and gives different results as before in the output .root file.
+\\
+\\
+Next:
+
+Adjust the p waves and check p-violation
+
+test for more event numbers
+
+
+\clearpage
+\noindent\textbf{17 Feb 2020, Monday}
+\\
+\\
+The events were generated with increasing event numbers and smaller intervals. It can be seen in Fig.\ref{acp_nospd} that there is a fluctuation in the asymmetries at around $2\cdot 10^5$ events and the asymmetries goes to zero at larger events numbers. This shows no CP and P violation. The errors in the asymmetries decreases asymptotically closing to zero as the event number increases.
+\\
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{a_cp/acp_nospd}
+\caption{The asymmetries calculated for different number of events.}
+\label{acp_nospd}
+\end{figure}
+\\
+\\
+By adding the S, P, and D waves, the values of $A_T$ and $\bar{A}_T$ are no longer consistent with zero which means there are P violation induced in the regular and conjugate decays, as shown in Fig.\ref{acp_spd},.
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{a_cp/acp_spd}
+\caption{The asymmetries calculated for different number of events with equal SPD waves.}
+\label{acp_spd}
+\end{figure}
+
+\clearpage
+\noindent\textbf{18 Feb 2020, Tuesday}
+\\
+\\
+This part starts by changing the amplitude of P waves in the resonance files:
+\\
+\\
+\textbf{A. Change all P wave amplitudes}
+\\
+\\
+\indent Input files: AmpGen/build/bin/spd\_waves\_gen 
+\\
+\\
+\indent Output files: \seqsplit{Simulations/B02DDbarKPi/p\_waves}
+\\
+\\
+event file (.opt) Example:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/event_info_p_10000}
+\caption{An example of event file for the plot in Fig.\ref{at_pwave_all_10000}}
+\label{event_info_p_10000}
+\end{figure}
+\\
+Changed the second number column in line 12, 15, 21, 23.
+\clearpage
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/at_pwave_all_10000}
+\caption{The change of $A_T$ by multiplying all the P wave amplitudes with the factors in x-axis using $10^4$ events.}
+\label{at_pwave_all_10000}
+\end{figure}
+\\
+All the events and P wave values are generated with the same seed - no seed specified (Seed 0).
+\clearpage
+\noindent \textbf{B. Change all SP wave amplitudes and make them equal}
+\\
+\\
+\indent Input files: AmpGen/build/bin/spd\_waves\_gen 
+\\
+\\
+\indent Output files: \seqsplit{Simulations/B02DDbarKPi/sp\_waves}
+\\
+\\
+event file (.opt) Example:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/event_info_sp_10000}
+\caption{An example of event file for the plot in Fig.\ref{at_pwave_all_10000}}
+\label{event_info_p_10000}
+\end{figure}
+\\
+Changed the second number column in line 11, 12, 15, 16, 20, 21, 23, 24.
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/at_spwave_all_10000}
+\caption{The change of $A_T$ by multiplying all the S and P wave amplitudes with the factors in x-axis using $10^4$ events.}
+\label{at_pwave_all_10000}
+\end{figure}
+\\
+\clearpage
+\noindent\textbf{19 Feb 2020, Wednesday}
+\\
+\\
+\textbf{C. P waves and SP waves for all resonances}
+\\
+\\
+\indent Input files: AmpGen/build/bin/spd\_waves\_gen\_sr2 
+\\
+\\
+\indent Output files: \seqsplit{Simulations/B02DDbarKPi/spd\_waves\_sr2}
+\\
+\\
+event file (.opt) Example:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/event_info_p_sr2_10000}
+\caption{An example of event file for the P-wave plot in Fig.\ref{spd_waves_sr2}}
+\label{event_info_p_sr2_10000}
+\end{figure}
+\\
+Changed the second number column in line 11, 13, 15, 17.
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/event_info_sp_sr2_10000}
+\caption{An example of event file for the SP-wave plot in Fig.\ref{spd_waves_sr2}}
+\label{event_info_sp_sr2_10000}
+\end{figure}
+\\
+Changed the second number column in line 11, 12, 14, 15, 17, 18, 20, 21.
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/spd_waves_sr2}
+\caption{(left) The change of $A_T$ by multiplying the P wave amplitudes with the factors in x-axis using $10^4$ events. (right) The change of $A_T$ by multiplying the S and P wave amplitudes equally with the factors in x-axis using $10^4$ events.}
+\label{spd_waves_sr2}
+\end{figure}
+\clearpage
+\noindent Investigation on single resonance $\psi$(3770)K$^*$(892)0:
+\\
+\\
+\textbf{D. use only the P waves or SP waves for a single resonance}
+\\
+\\
+\indent Input files: AmpGen/build/bin/spd\_waves\_gen\_sr1 
+\\
+\\
+\indent Output files: \seqsplit{Simulations/B02DDbarKPi/spd\_waves\_sr1}
+\\
+\\
+event file (.opt) Example:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/event_info_p_sr1_10000}
+\caption{An example of event file for the P-wave plot in Fig.\ref{spd_waves_sr1}}
+\label{event_info_p_sr1_10000}
+\end{figure}
+\\
+Changed the second number column in line 3.
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/event_info_sp_sr1_10000}
+\caption{An example of event file for the SP-wave plot in Fig.\ref{spd_waves_sr1}}
+\label{event_info_sp_sr1_10000}
+\end{figure}
+\\
+Changed the second number column in line 5, 6.
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/spd_waves_sr1}
+\caption{(left) The change of $A_T$ by multiplying the P wave amplitudes with the factors in x-axis using $10^4$ events. (right) The change of $A_T$ by multiplying the S and P wave amplitudes equally with the factors in x-axis using $10^4$ events.}
+\label{spd_waves_sr1}
+\end{figure}
+Reasons for flat?
+\clearpage
+\noindent Investigation on single resonance $\psi$(4040)K$^*$(892)0:
+\noindent \textbf{E. P waves and SP waves single resonances with interferences}
+\\
+\\
+\indent Input files: AmpGen/build/bin/spd\_waves\_gen\_sr3 
+\\
+\indent \indent \indent \indent AmpGen/build/bin/B0\_event\_spd\_sr3\_4040/sr1\_seed200\_10000 (for smaller intervals between -1 and 1)
+\\
+\\
+\indent Output files: \seqsplit{Simulations/B02DDbarKPi/spd\_waves\_sr3}
+\\
+\indent \indent \indent \seqsplit{Simulations/B02DDbarKPi/spd\_waves\_sr\_4040}
+\\
+\\
+event file (.opt) Example:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/event_info_p_sr3_10000}
+\caption{An example of event file for the P-wave plot in Fig.\ref{spd_waves_sr3}}
+\label{event_info_p_sr3_10000}
+\end{figure}
+\\
+Changed the second number column in line 3.
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/event_info_sp_sr3_10000}
+\caption{An example of event file for the SP-wave plot in Fig.\ref{spd_waves_sr3}}
+\label{event_info_sp_sr3_10000}
+\end{figure}
+\\
+Changed the second number column in line 3, 4.
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/spd_waves_sr3}
+\caption{(left) The change of $A_T$ by multiplying the P wave amplitudes with the factors in x-axis using $10^4$ events. (right) The change of $A_T$ by multiplying the S and P wave amplitudes equally with the factors in x-axis using $10^4$ events.}
+\label{spd_waves_sr3}
+\end{figure}
+
+\clearpage
+\noindent\textbf{21 Feb 2020, Friday}
+\\
+\\
+\textbf{F. Split the events into ten files generated with a set of 10 seeds}
+\\
+\\
+(1) Same set of seed for each p wave amplitude:
+\\
+\indent Seed 0,10,20,30,40,50,60,70,80,90 --- range (0,100,10)
+\\
+\\
+\indent Input files: AmpGen/build/bin/spd\_waves\_gen\_sr3\_seed
+\\
+\indent \indent \indent \indent AmpGen/build/bin/B0\_event\_spd\_sr3\_4040/sr2\_seed200\_1000 (for smaller intervals between -1 and 1)
+\\
+\\
+\indent Output files: \seqsplit{Simulations/B02DDbarKPi/spd\_waves\_combine\_1E4\_4040}
+\\
+\indent \indent \indent \seqsplit{Simulations/B02DDbarKPi/spd\_waves\_sr\_4040}
+\\
+\\ 
+event file (.opt) Example:
+\\
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.90\linewidth]{p_wave/event_info_combine_p_10000}
+\caption{An example of event file for the P-wave plot in Fig.\ref{spd_waves_combine}}
+\label{event_info_combine_p_10000}
+\end{figure}
+\\
+Changed the second number column in line 3, 6.
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.80\linewidth]{p_wave/spd_waves_combine}
+\caption{The change of $A_T$ by multiplying the P wave amplitudes with the factors in x-axis using $10^4$ events. }
+\label{spd_waves_combine}
+\end{figure}
+
+\clearpage
+\noindent (2) Different sets of seed for each p wave amplitude:
+\\
+\\
+e.g - Seed 0,20,40,60,80,100,120,140,160,180 --- range (0,200,10) for $factor = 10^{-5}$
+
+Seed 1,21,41,61,81,101,121,141,161,181 for $factor = 10^{-4}$
+  
+, etc...
+\\
+\\
+\indent Input files: AmpGen/build/bin/spd\_waves\_gen\_sr3\_seed2 
+\\
+\indent \indent \indent \indent AmpGen/build/bin/B0\_event\_spd\_sr3\_4040/sr3\_seed200\_1000\ +\ sr3\_seed200\_10000 (for smaller intervals between -1 and 1)
+\\
+\\
+\indent Output files: \seqsplit{Simulations/B02DDbarKPi/spd\_waves\_combined2\_1E4\_4040\ +\ spd\_waves\_combined2\_1E5\_4040}
+\\
+\indent \indent \indent \seqsplit{Simulations/B02DDbarKPi/spd\_waves\_sr\_4040}
+\\
+\\
+event file (.opt) Example:
+\\
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/event_info_combine2_p_10000}
+\caption{An example of event file for the P-wave plot in Fig.\ref{spd_waves_combine2_p}}
+\label{event_info_combine2_p_10000}
+\end{figure}
+\\
+Changed the second number column in line 3, 6.
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.60\linewidth]{p_wave/spd_waves_combined2_p}
+\caption{The change of $A_T$ by multiplying the P wave amplitudes with the factors in x-axis using $10^4$ and $10^5$ events. }
+\label{spd_waves_combined2_p}
+\end{figure}
+\clearpage
+Put the results for $\psi$(4040)K$^*$(892)0 together with more events for the \textbf{E} and \textbf{F}(1) methods, this gives
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/spd_waves_sr_4040}
+\caption{The change of $A_T$ by multiplying the P wave amplitudes with the factors in x-axis using $10^4$ and $10^5$ events by generating events using three different methods. }
+\label{spd_waves_sr_4040}
+\end{figure}
+\clearpage
+\noindent More investigation on single resonance $\psi$(3770)K$^*$(892)0 using the methods stated in \textbf{E}, \textbf{F}(1) and \textbf{F}(2).
+\\
+\\
+\indent Input files: AmpGen/build/bin/B0\_event\_spd\_sr3\_3770
+\\
+\\
+\indent Output files: \seqsplit{Simulations/B02DDbarKPi/spd\_waves\_sr\_3770}
+\\
+\\
+event file (.opt) Example:
+\\
+\\
+(It was found we didn't specify the coordinate system in the event files. However, this doesn't effect the previous results since all the results were generated from real numbers - no phases)
+\\
+We should also tell the units for the phase -  I use radian.
+\\
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/event_info_sr_3770}
+\caption{An example of event file for the P-wave plot in Fig.\ref{spd_waves_sr_3770}}
+\label{event_info_sr_3770}
+\end{figure}
+\\
+Changed the second number column in line 7.
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/spd_waves_sr_3770}
+\caption{The change of $A_T$ by multiplying the P wave amplitudes with the factors in x-axis using $10^4$ and $10^5$ events by generating events using three different methods. }
+\label{spd_waves_sr_3770}
+\end{figure}
+\\
+Method A = \textbf{E}
+\\
+Method B = \textbf{F}(1)
+\\
+Method C = \textbf{F}(2)
+\clearpage
+\noindent More investigation on all resonance using the methods stated in \textbf{F}(2).
+\\
+\\
+\indent Input files: AmpGen/build/bin/B0\_event\_spd\_nophase 
+\\
+\\
+\indent Output files: \seqsplit{Simulations/B02DDbarKPi/spd\_waves\_combine3\_1E4\ +\  spd\_waves\_combine3\_1E5\ +\ spd\_waves\_combine3\_1E6}
+\\
+\\
+event file (.opt) Example:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.86\linewidth]{p_wave/event_info_combine3_spd}
+\caption{An example of event file for the P-wave plot in Fig.\ref{spd_waves_combined3_p}}
+\label{event_info_combine3_spd}
+\end{figure}
+Changed the second number column in line 7, 8, 9, 10.
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{p_wave/spd_waves_combined3_p}
+\caption{The change of $A_T$ by multiplying the P wave amplitudes with the factors in x-axis using $10^4$, $10^5$ and $10^6$ events. }
+\label{spd_waves_combined3_p}
+\end{figure}
+
+\clearpage
+\noindent\textbf{24 Feb 2020, Monday}
+\\
+\\
+Start varying the phase of the resonance. The phase are chosen to be from -1.5pi to 1.75 pi with intervals of 0.25pi
+\\
+\\
+For the single resonance - $\psi$(3770)K$^*$(892)0, 
+\\
+\\
+\indent Input files: AmpGen/build/bin/B0\_event\_sr1\_p\_phase\_1E5
+\\
+\\
+\indent Output files: \seqsplit{Simulations/B02DDbarKPi/spd\_waves\_combine\_phase\_1E5}
+\\
+\\
+event file (.opt) Example:
+\\
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{p_wave/event_info_combine_phase_1E5}
+\caption{An example of event file for the P-wave plot in Fig.\ref{spd_waves_combine_phase_1E5}}
+\label{event_info_combine_phase_1E5}
+\end{figure}
+\\
+Changed the second and the fifth number column in line 7.
+\begin{figure}[h]
+\center
+\includegraphics*[width=1.06\linewidth]{p_wave/spd_waves_combine_phase_1E5}
+\caption{The change of $A_T$ by multiplying the P wave amplitudes with the factors in x-axis using and changing the phase with $10^5$ events. }
+\label{spd_waves_combine_phase_1E5}
+\end{figure}
+\\
+\\
+- No obvious parity violation in this single resonance?
+\\
+The whole process takes 22+7 hours.
+Would need some optimization in the codes for calculating $A_T$.
+
+\clearpage
+\noindent\textbf{25 Feb 2020, Tuesday}
+\\
+\\
+Have looked at the fitter in AmpGen by first generate $10^4$ events using AmpGen and fit the results with \texttt{SignalOnlyFitter}:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.86\linewidth]{amplitude_fit/SignalOnlyFitter}
+\caption{Instruction of using the \texttt{SignalOnlyFitter}}
+\label{SignalOnlyFitter}
+\end{figure}
+\\
+\label{aa_test}
+The was done by unfixing (fix=0) the amplitudes and phases of the resonance in the resonance (\texttt{.opt}) file with all the resonances and the S, P and D waves for the two spin-1 resonance being included and fix only one resonance. Here fixing $\psi$(3770)K$^*$(892)0[S] (set to be fix=2) for both amplitude and phase.
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{amplitude_fit/resonance_file}
+\caption{The amplitude model for the intermediate resonance used for the fit.}
+\label{resonance_file}
+\end{figure}
+\clearpage
+\noindent The fitting returns back the real and imaginary part of the amplitude in the resonances of the decay and percentage/probability for the each resonance to occur, based on the four momentum data. This also generates a plot.root file containing the phase space plots. It takes about 5 minutes to finish the fitting for $10^4$ events.
+\\
+\\
+A comparison was made between the generated MC data and the results from the amplitude fitting, as shown  below:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.86\linewidth]{amplitude_fit/compare}
+\caption{The verification of the fitter with the generated $B^0$ decays with 10000 events.}
+\label{compare_fitter}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.86\linewidth]{amplitude_fit/compare_400}
+\caption{The verification of the fitter with the generated $B^0$ decays with 400 events (much fewer events).}
+\label{compare_fitter_400}
+\end{figure}
+\\
+\\
+\clearpage
+The comparison of the ratio of the resonances contributed obtained from the fittings were made for different number of events using the Random Seed 7.
+\begin{figure}[h]
+\center
+\includegraphics*[width=1.06\linewidth]{amplitude_fit/compare_resonance}
+\caption{The ratio of the contributed resonances for generated MC data with different number of events.}
+\label{compare_resonance}
+\end{figure}
+\\
+\\
+Next steps:
+\begin{itemize}
+    \item induce CP violation by change the number of $C_T$ by several percent
+    \item binned analysis for the CM variables
+    \item real data from LHCb
+\end{itemize}
+\clearpage
+\noindent\textbf{28 Feb 2020, Friday}
+\\
+\\
+Start doing binned analysis following the method in the $D\to KK\pi\pi$ decay paper \autocite{Aaij_2014}.
+\\
+\\
+This uses the five CM variables as the phase-space variables and divides the phase-space into 32 regions with each region containing similar number of events. 
+\\
+\\
+The method is to divide the list of the first CM variable into two bins with equal number of events in each bin and find the bin edges. The next step is to apply the bin edges to the next CM variable, make it two bins and divide events in each bin into equal quantity which makes 4 bins in total. Repeating this, results in $2^5=32$ bins for the $5^{th}$ CM variable. More bin division could also be made for the CM variables, gives e.g. $3^5$, $4^5$ phase regions with 3,4 divisions for the $5^{th}$ CM variable.
+\\
+\\
+The next step is to allocate the triple products $C_T$ of the events into regions in terms of a combination of the CM variable ranges obtained from the bin edges. And then, the triple product asymmetries and CP asymmetries can be obtained from the $C_T$ in each phase-pace region. The way of arranging phase space regions can be different and gives different distributions for the asymmetries. The conjugate decays use the same binned scheme as obtained from the regular decays.
+\\
+\\
+The P / CP asymmetries were found using three different methods: A. from the entire phase space, B. from different phase-space region, and C. from the fitting to the $\mathcal{A}_{\mathcal{C}\mathcal{P}}$ across the phase space regions using a straight line $y=0x+b$, where $b$ is the asymmetry value. The fitting were also made with a CP symmetric curve (a straight line at $y=0$) to find how well the data fits to no CP violation. For each fit, the value of the $\chi^2/\text{ndf}$ (ndf = number of degree of freedom) and the corresponding p-value were found:
+\begin{equation}
+    \chi^2/\text{ndf} = \frac{1}{32}\sum_i\left(\frac{x_i-E_i}{\sigma_i}\right)^2,
+\end{equation}
+where $x_i$ and $\sigma_i$ is value and the uncertainty data $i$, $E_i$ is the expected value (or fitted value) of data $i$. The $\chi^2$ has the probability distribution \autocite{pvalue}:
+\begin{equation}
+    P(\chi^2) \propto (\chi^2)^{\frac{\text{ndf}-2}{2}}e^{-\frac{\chi^2}{2}},
+\end{equation}
+where the mean of the $\chi^2$ is equal to (ndf) and the standard deviation of the $\chi^2$ is $\sqrt{2\cdot\text{ndf}}$. The p-value is the probability of the value equal or greater than the $\chi^2$ obtained from the fitting could arise by chance. If the $\chi^2$ is low, this gives a larger p-value, which indicates the high confidence for the model to fit the data.
+\clearpage
+\noindent\textbf{2 March 2020, Monday}
+\\
+\\
+For $10^5$ events with all the resonances included and S, P and D waves applied to the two spin-1 resonances (with equal relative P-wave amplitudes and zero phase offset), the results from the method A gives (this would be the same for all the bin arrangements):
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.46\linewidth]{binnedanalysis/asy_all_ps}
+\caption{The P and CP asymmetries found directly over all phase space regions.}
+\label{asy_all_ps}
+\end{figure}
+\\
+For method B, using the \texttt{for} loop arrangement to allocate $C_T$ into the phase-space regions, this gives the total number of $C_T$ in each region:
+\\
+\\
+\seqsplit{$[1422, 897, 1402, 905, 1387, 911, 1400, 905, 1401, 902, 1372, 911, 1400, 907, 1415, 899, 1458, 884, 1429, 893, 1395, 906, 1421, 892, 1444, 883, 1355, 920, 1380, 916, 1407, 902, 1222, 1940, 1204, 1969, 1187, 1973, 1199, 1965, 1203, 1977, 1187, 1991, 1198, 1971, 1205, 1952, 1237, 1907, 1222, 1932, 1192, 1966, 1211, 1937, 1224, 1923, 1178, 2012, 1185, 2002, 1201, 1959]$}.
+\\
+\\
+This summed over to give 87552 events, which is less than the original number of events of $10^5$. The reason might be that some events do not satisfy any arrangements of the phase-space variables in the 32 regions, and hence were miscounted.
+\\
+\\
+This gives The bin arrangement:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{binnedanalysis/phase_space_region1}
+\caption{The 32 regions of the five-dimensional phase space of the four-body, as in the order of: $\phi$, $m(D^0\bar{D}^0)$, $m(K\pi)$,$\cos(\theta_D)$,$\cos(\theta_K)$.}
+\label{phase_space1}
+\end{figure}
+\clearpage
+The asymmetry distributions are:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{binnedanalysis/phase_space_region_asy1}
+\caption{The P and CP asymmetries found in 32 regions.(method B)}
+\label{phase_space1}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.86\linewidth]{binnedanalysis/Binned_Analysis_factorspd_1E0.0_100000_1}
+\caption{The distribution of the asymmetries using the binning scheme, the best fitted curve of $\mathcal{A}_{\mathcal{C}\mathcal{P}}$ (method C) and CP conserved curve.}
+\label{binning1}
+\end{figure}
+\\
+This bin arrangement gives the distribution of $\mathcal{A}_{\mathcal{C}\mathcal{P}}$ in some regular pattern which shows a CP asymmetry. The reason might be there are too many points lost and the bin arrangements of $\phi$ changes very frequently $=>$?
+\\
+\\
+The events are generated using all resonances with the S,P and D waves included for the two spin-1 resonances, and 10 random seeds. This changes the distributions of CM variables ($\phi$ and helicity angles) compared with the model without the S,P,D waves and with using one seed only by compared with Fig.\ref{thetaddv3}-\ref{phiv3}:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.66\linewidth]{binnedanalysis/CM_variable_all_factorspd_1E0.0_100000}
+\caption{The CM variable distribution for the model with spd waves using 10 different random seeds.}
+\label{CM_variables_new}
+\end{figure}
+\clearpage
+\noindent\textbf{3 March 2020, Tuesday}
+\\
+\\
+The code is developed to allow different bin arrangements for the 32 phase space regions.
+\\
+\\
+An alternative is:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{binnedanalysis/phase_space_region2}
+\caption{The 32 regions of the five-dimensional phase space of the four-body, as in the order of: $\phi$, $m(D^0\bar{D}^0)$, $m(K\pi)$,$\cos(\theta_D)$,$\cos(\theta_K)$.}
+\label{phase_space2}
+\end{figure}
+\\
+This gives the total number of $C_T$ in each region:
+\\
+\\
+\seqsplit{$[1422, 2125, 2051, 2205, 1820, 2209, 1932, 2243, 2255, 1973, 2568, 2358, 1914, 1549, 1757, 1850, 775, 1085, 1078, 1185, 1006, 1128, 1037, 1308, 1131, 1067, 1306, 1240, 978, 729, 754, 902, 1222, 888, 908, 778, 1452, 1036, 1330, 1367, 1156, 1440, 971, 1031, 1070, 1133, 980, 987, 2222, 1526, 1732, 1444, 2671, 1867, 2526, 2392, 2303, 2732, 1844, 1961, 1872, 2238, 1979, 1959]$}.
+\\
+\\
+This summed over to give 99957 events, which is closer to $10^5$ - more events has fallen to satisfy the bin arrangements. 
+\\
+\\
+The asymmetries starts to make sense, where it shows a consistency to no CP violation with a p-value of 72.5\% for a $\chi^2$/ndf=0.84. The value of $\mathcal{A}_{\mathcal{C}\mathcal{P}}$ from the fitting is less than the value obtained from the entire phase space region ($-0.001\pm0.002$)(method A). This might be due to the loss of events from bin arrangements. The results are shown below:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{binnedanalysis/phase_space_region_asy2}
+\caption{The P and CP asymmetries found in 32 regions.(method B)}
+\label{phase_space2}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.86\linewidth]{binnedanalysis/Binned_Analysis_factorspd_1E0.0_100000_2}
+\caption{The distribution of the asymmetries using the binning scheme in Fig.\ref{phase_space2}, the best fitted curve of $\mathcal{A}_{\mathcal{C}\mathcal{P}}$ (method C) and CP conserved curve.}
+\label{binning2}
+\end{figure}
+\clearpage
+\\
+\\
+Another attempt of bin arrangements was tried by following the one in the literature \autocite{Aaij_2014} as mentioned before:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{binnedanalysis/phase_space_region3}
+\caption{The 32 regions of the five-dimensional phase space of the four-body, as in the order of: $\phi$, $m(D^0\bar{D}^0)$, $m(K\pi)$,$\cos(\theta_D)$,$\cos(\theta_K)$.}
+\label{phase_space3}
+\end{figure}
+\\
+This gives the total number of $C_T$ in each region:
+\\
+\\
+\seqsplit{$[1422, 1772, 2277, 1887, 746, 991, 1116, 981, 2098, 1988, 2608, 1768, 1086, 1017, 1307, 754, 2125, 2257, 1951, 1576, 1114, 1143, 1082, 727, 2158, 2187, 2318, 1839, 1178, 1017, 1239, 902, 1222, 1432, 1178, 1054, 2180, 2632, 2260, 1880, 919, 1366, 983, 982, 1743, 2499, 1846, 1979, 888, 1056, 1418, 1149, 1568, 1906, 2775, 2230, 766, 1328, 1018, 984, 1434, 2499, 1959, 1959]$}.
+\\
+\\
+This summed over to give 99723 events, which is also close to $10^5$.
+\\
+\\
+The distributions of the calculated asymmetries looks more uniformly. The results are compatible with the CP conservation hypothesis at p-value of 81.9\% for the $\chi^2$/ndf=0.77. The reusults are shown below:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{binnedanalysis/phase_space_region_asy3}
+\caption{The P and CP asymmetries found in 32 regions.(method B)}
+\label{phase_space3}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.86\linewidth]{binnedanalysis/Binned_Analysis_factorspd_1E0.0_100000_3}
+\caption{The distribution of the asymmetries using the binning scheme in Fig.\ref{phase_space3}, the best fitted curve of $\mathcal{A}_{\mathcal{C}\mathcal{P}}$ (method C) and CP conserved curve.}
+\label{binning3}
+\end{figure}
+\clearpage
+\noindent\textbf{5 March 2020, Thursday}
+\\
+\\
+First look of LHCb data (Run I):
+The data were cut for the classifier with \texttt{NN\_weights}$>$0.9979, which was obtained from the previous analysis steps. The overall selection efficiency is $4.08\times 10^{-4}$, so we have got constant efficiency over the phase space and don't apply any corrections due to where the decay is in phase space. 
+\\
+\\
+The data contains the four momentum of the mother particle $B^0$ and the four daughter particles. They are labelled as: 
+\\
+
+\texttt{B0\_PE}, \texttt{B0\_PX}, \texttt{B0\_PY}, \texttt{B0\_PZ}, 
+
+\texttt{D0\_PE}, \texttt{D0\_PX}, \texttt{D0\_PY},\texttt{D0\_PZ}, 
+
+\texttt{D0bar\_PE}, \texttt{D0bar\_PX}, \texttt{D0bar\_PY}, \texttt{D0bar\_PZ},
+
+\texttt{K\_Kst0\_PE}, \texttt{K\_Kst0\_PX}, \texttt{K\_Kst0\_PY}, \texttt{K\_Kst0\_PZ},
+
+\texttt{Pi\_Kst0\_PE}, \texttt{Pi\_Kst0\_PX}, \texttt{Pi\_Kst0\_PY}, \texttt{Pi\_Kst0\_PZ}. 
+\\
+\\
+The term with \texttt{\_Kst0} means that particles \texttt{K} and \texttt{PI} comes from the decay of $K^*$. There also contains e.g. \texttt{K\_D0\_PX}, \texttt{Pi\_D0\_PX}, \texttt{K\_D0bar\_PX}, indicates \texttt{K} and \texttt{PI} comes from \texttt{D0} or \texttt{D0bar}, which is used for flavour-tagging of the production of $D^0$ and $\bar{D}^0$.
+\\
+\\
+The data for regular decay and charge-conjugate decay were recognized from the values of \texttt{K\_Kst0\_ID}. For example, in the column of (e.g.) \texttt{D0\_PX}, the event with ID=321 is the momentum of $D^0$ comes from the regular decay, while the event with ID=-321 is the momentum of $D^0$ comes from the conjugate decay. And similarly, in the column of \texttt{Dbar0\_PX}, the event with ID=321 is the $\bar{D}^0$ comes from the regular decay and the value with ID=-321 is the $\bar{D}^0$ comes from the conjugate decay. For the momentum of $K$, it has the meaning $K^+$ and $K^-$ for ID = 321 and -321 ,respectively. The total number of data obtained is 2678 with 1405 being regular and 1273 being charge-conjugate process. So the scalar product for the regular and conjugate process are given by:
+\begin{equation}
+    C\_T =
+\begin{cases}
+    (\text{D0\_P} \times \text{D0bar\_P})\cdot \text{K\_Kst0\_P}, & \;\;\;\text{for ID=321}, \\
+    (\text{D0bar\_P} \times \text{D0\_P})\cdot \text{K\_Kst0\_P}, & \;\;\;\text{for ID=-321}.
+\end{cases}
+\end{equation}
+\\
+The invariant masses of $B^0$ with different values of the triple product for the regular and conjugate processes are given by:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{LHCb_runI/invmass_B0_noweight}
+\caption{The invariant mass of $D^0\bar{D}^0K^+\pi^-$ and its conjugate decays for different values of $C_T$.}
+\label{inv_B0_runi_noweight}
+\end{figure}
+\\
+\\
+The resonance is expected to happen at around 5.28$GeV/c^2$. It shows that there are contributions from other sources: the background signal or the decays not coming from $B^0$. The \texttt{sWeights = N\_s/(N\_s+N\_b)} are required to add to the data, which accounts for the probability for a particular event signal comes from the $B^0$ decay, here it assumes the sWeights is the same as inWeights. More details for sPlots, sWeights, and inWeights can be found in \autocite{Pivk_2005} \autocite{sPlots}.
+\\
+\\
+Note: [It is not clear if the background was studied over the whole phase space or not either (if not, then the background subtraction is only an approximation and we’ll have to make note of that].
+\\
+\\
+After applying the sWeights, the additional noise is removed, leaves the contribution from $B^0$ only. This shows the correct resonance distribution for $B^0$ with 115 events:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{LHCb_runI/invmass_B0}
+\caption{The invariant mass of $D^0\bar{D}^0K^+\pi^-$ and its conjugate decays for different values of $C_T$ after applying the sWeights.}
+\label{inv_B0_runi}
+\end{figure}
+\clearpage
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.66\linewidth]{LHCb_runI/CM_variable_all}
+\caption{The distribution of the CM variable of the LHCb (Run I) data after adding the weights. This doesn't show an obvious correct distributions comparing to the previous simulated distribution in e.g. Fig.\ref{CM_variables_new}. The reason might be the there are not enough number of events and the weights used in the $B^0$ decay doesn't apply to these variables.}
+\label{CM_variable_runi}
+\end{figure}
+\clearpage
+\noindent\textbf{7 March 2020, Saturday}
+\\
+\\
+This distribution of the weighted $B^0$ resonances are fitted using a Gaussian function:
+\begin{equation}
+    f(x) = Ae^{-\frac{(x-x_0)^2}{2\sigma^2}},
+    \label{gaussian}
+\end{equation}
+where $A$ is the amplitude, $x_0$ is the mean and $\sigma$ is the standard deviation of the distribution.
+\\
+\\
+This fits the data well with little uncertainties in the parameters:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{LHCb_runI/B0_fit}
+\caption{The results of the parameters after fitting the $B_0$ resonance using the eq.\ref{gaussian}.}
+\label{fit_B0_runi}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{LHCb_runI/invmass_B0_fit_tp}
+\caption{The fitted distribution of the $B_0$ resonance with showing the 1-$\sigma$ tolerance.}
+\label{fit_B0_plot_runi}
+\end{figure}
+\clearpage
+\noindent\textbf{9 March 2020, Monday}
+\\
+\\
+To find the triple product and CP asymmetries for the LHCb data, the yields of the data for the four $C_T$ cases were calculated. One way to calculate the yields is to find the integral of the Gaussian distribution (Eq.\ref{gaussian}) of the $B^0$ resonances in Fig.\ref{fit_B0_plot_runi} and divided by the bin width $\Delta m$. The calculation is given by:
+\begin{align}
+    \eta &= \frac{1}{\Delta m}\int^{\infty}_{-\infty} f(x) dx \nonumber\\
+         &= \frac{1}{\Delta m}\int^{\infty}_{-\infty} Ae^{-\frac{(x-x_0)^2}{2\sigma^2}} dx \nonumber\\
+         &= \frac{A}{\Delta m}\int^{\infty}_{-\infty} e^{-ay^2} dy \;\;\;\;\;\;\;\;\;\;\;\; y = x-x_0, a = \frac{1}{2\sigma^2} \nonumber\\
+         &= \frac{A}{\Delta m}\sqrt{\frac{\pi}{a}} 
+         = \frac{A\sigma}{\Delta m}\sqrt{2\pi}.
+\end{align}
+The uncertainties for the yields are contributed from two sources: the uncertainty in the yields it self (which can be treated as a Poisson distribution) and the uncertainty from the fittings. The first uncertainty is then given by
+\begin{equation}
+    \sigma_{\eta\text{\_self}} = \sqrt{\eta},
+\end{equation}
+while the second uncertainty is found from partial derivatives:
+\begin{align}
+    \sigma_{\eta\text{\_fit}} &= \sqrt{\left(\frac{\partial\eta}{\partial A}\Delta A\right)^2 + \left(\frac{\partial\eta}{\partial \sigma}\Delta\sigma\right)^2}   \nonumber\\
+                  &= \sqrt{\left(\eta\frac{\Delta A}{A}\right)^2+\left(\eta\frac{\Delta \sigma}{\sigma}\right)^2}  \nonumber\\
+                  &= \eta \sqrt{\left(\frac{\Delta A}{A}\right)^2+\left(\frac{\Delta \sigma}{\sigma}\right)^2}.
+\end{align}
+Using the above equations to calculate $\eta$'s for the four Gaussian distribution gives the triple product and CP asymmetry for the regular and conjugate decay:
+\begin{align}
+    A_T = \frac{\eta(C_T>0)-\eta(C_T<0)}{\eta(C_T>0)+\eta(C_T<0)} \;\;\;&\text{and}\;\;\;
+    \bar{A}_T = \frac{\eta(-\bar{C}_T>0)-\eta(-\bar{C}_T<0)}{\eta(-\bar{C}_T>0)+\eta(-\bar{C}_T<0)},\\
+    \text{with}\;\;\;\mathcal{A}_{\mathcal{C}\mathcal{P}} &= \frac{1}{2}(A_T-\bar{A}_T).
+    \label{asymmetry_yield}
+\end{align}
+This gives the results:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{LHCb_runI/B0_yields_asy}
+\caption{The yields and asymmetries calculated from the fitted Gaussian distributions of the $B^0$ resonances (from Fig.\ref{fit_B0_plot_runi}).}
+\label{B0_yields_asy_1}
+\end{figure}
+\clearpage
+\noindent\textbf{10 March 2020, Tuesday}
+\\
+\\
+The Triple product asymmetries in Fig.\ref{B0_yields_asy_1} were larger than the predicted values from the simulation studies in the order of $10^{-2}$ for $10^5$ events and doesn't show any P violation due to large errors. A larger size of events would reduced the error. The results for CP asymmetry is about 100 times larger than the simulation study but is still consistent with no CP violation.
+\\
+\\
+An alternative method to find the yields is to sum ever the bin heights of the distribution after applying the \texttt{sWeights} - this is equivalent to sum over the \texttt{sWeights} (gives the same results). This remove the uncertainties from the fitting and only accounts for the uncertainty from the yields itself.
+\\
+\\
+For all the events $i$ with $C_{T_{i}} > 0$ and \texttt{sWeights} $w_i$, the yields can be written as:
+\begin{equation}
+    \eta(C_T > 0) = \sum_{i} w_i (C_{T_{i}} > 0),
+\end{equation}
+and similar for the situations of $C_T<0$, $-\bar{C}_T<0$ and $-\bar{C}_T>0$. The asymmetries were then found by using Eq.\ref{asymmetry_yield}.
+\\
+\\
+The results are:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{LHCb_runI/B0_yields_asy2}
+\caption{The yields and asymmetries calculated from the sum of the \texttt{sWeights}.}
+\label{B0_yields_asy_2}
+\end{figure}
+\\
+\\
+Comparing this to the results in Fig.\ref{B0_yields_asy_1}, the asymmetries changes by $10^{-2}$ to $10^{-3}$ and the errors has been decreased by $3\times 10^{-2} \sim 5\times 10^{-2}$. 
+\\
+\\
+A third attempt is to cut the un-weighted data around the $B^0$ resonance (i.e. at 5.2-5.35 $GeV/c^2$) and assume the signal comes from the $B^0$ decay only. One can use this data to find the asymmetries by applying the code for studying generated data. This gives the number of events of 136 ($>$115). This gives the results of asymmetries: 
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{LHCb_runI/B0_yields_asy3}
+\caption{The asymmetries calculated the data after cutting at 5.2 and 5.35 $GeV/c^2$ in the un-weighted data.}
+\label{B0_yields_asy_3}
+\end{figure}
+\\
+\\
+Comparing to the results in Fig.\ref{B0_yields_asy_1} and Fig.\ref{B0_yields_asy_2}, the asymmetries are getting closer to zero and the errors drop again to show the CP asymmetry with $1.8\sigma$. From the simulation studies, we don't expect to see any CP violation with this amount of data. The results indicates an overestimation in the data of the $B^0$ decay. 
+\clearpage
+\noindent\textbf{15 March 2020, Sunday}
+\\
+\\
+Previously, an analysis in the LHCb Run I data was performed. Now add the Run II (2016) data, which is 2263 data points. This add Run I together to give 2263+2678 = 4941 events. Data from Run II(2017\&2018) is yet to be analysed, which will give 3 times more data. The method used is the same as for analysing Run I. The total weighted number of data is 203.
+\\
+\\
+This shows the results of fitting parameters for the $B^0$ resonance (Gaussian distribution) and the values of the asymmetries from three different approaches:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{LHCb_Run1_AND_2/B0_yields_asy_old}
+\caption{The results of the fittings and the asymmetries from three different approaches for Run I and Run II (2016) data.}
+\label{B0_yields_asy_old_run12}
+\end{figure}
+\\
+\\
+It can be seen that the results from the first two approaches are getting more closer to each other for the a larger number of events and the uncertainties has been reduced. The values of $\bar{A}_T$ has been significantly reduced from 0.1 to 0.02 after adding the Run II (2016) data, but the uncertainties remains large up to $>\pm$0.1. The values for $A_T$ , $\bar{A}_T$ and $\mathcal{A}_{\mathcal{C}\mathcal{P}}$ have got the larger deviations from zero compared with simulation studies. The results from the third method shows P violation with $2.75\sigma$ - this is again not expected for this number of events according to previous simulation studies, which might be due to the contribution from the noises.
+\clearpage
+\noindent\textbf{17 March 2020, Tuesday}
+\\
+\\
+Add a little more LHCb data - this gives 2678+2263+147+65 = 5153 events before weighting, and 304 events after weighting - doesn't observe about 400 events (as expected). It was realised that the value of \texttt{opt\_cut} used to cut the data with particular \texttt{NN\_weights} would only work for the Run I data previous analysed. It might not work for the Run II (2016) data and the additional data.
+\clearpage
+\noindent\textbf{18 March 2020, Wednesday}
+\\
+\\
+The values of \texttt{opt\_cut} are different for different data files. Now backup the old files and use the new files instead. They are:
+\\
+\\
+\textbf{Data\_sig\_tos\_weights-Run1.pkl}$\;\;\;\;\;\;\;$\texttt{opt\_cut} = 0.9968
+\\
+\textbf{Data\_sig\_tos\_weights-Run2.pkl}$\;\;\;\;\;\;\;$\texttt{opt\_cut} = 0.9693
+\\
+\textbf{Data\_sig\_tis\_weights-Run1.pkl}$\;\;\;\;\;\;\;$\texttt{opt\_cut} = 0.9988
+\\
+\textbf{Data\_sig\_tis\_weights-Run2.pkl}$\;\;\;\;\;\;\;$\texttt{opt\_cut} = 0.9708
+\\
+\\
+Note: [TOS (Trigger on Signal) and TIS (Trigger independent of Signal) are different categories of data. We should find out the details before you write up your report but for now don’t worry about it.]
+\\
+\\
+By applying the new \texttt{opt\_cut}, the number of events before weighting is 354+395+98+190 = 1037, and after weighting is 399. The results from the three approaches are:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{LHCb_Run1_AND_2/B0_yields_asy_new}
+\caption{The results of the fittings and the asymmetries from three different approaches for Run I and Run II (2016) data (new data file).}
+\label{B0_yields_asy_new_run12}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{LHCb_Run1_AND_2/invmass_B0_fit_tp}
+\caption{The fitted distribution of the $B_0$ resonance with showing the 1-$\sigma$ tolerance for the Run I and Run II  (2016) from new data files.}
+\label{fit_B0_run12}
+\end{figure}
+\clearpage
+\noindent The distributions were also fitted by the relativistic Breit-Wigner distribution giving the results:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{LHCb_Run1_AND_2/invmass_B0_fit_tp_bw}
+\caption{The fitted Breit-Wigner distribution of the $B_0$ resonance with showing the 1-$\sigma$ tolerance for the Run I and Run II (2016) from new data files.}
+\label{fit_B0_run12_bw}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{LHCb_Run1_AND_2/B0_fit_bw}
+\caption{The values of the fitted parameters from the Breit-Wigner distribution of the $B_0$ resonance for the Run I and Run II (2016) from new data files.}
+\label{fit_B0_run12_bw}
+\end{figure}
+\clearpage
+\noindent\textbf{19 March 2020, Thursday}
+\\
+\\
+\label{rm_dup}
+It's been noticed that the results are slightly different by removing the duplicated data (1\% to 2\% of them). I am not sure if it should be removed and why there is duplicated data?
+\\
+\\
+After removing the duplicated data, the number of events before weighting is 347+390+98+190 = 1025, and after weighting is 396.
+\\
+\\
+The results are:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{LHCb_Run1_AND_2/B0_yields_asy_new_noduplicated}
+\caption{The results of the fittings and the asymmetries from three different approaches for Run I and Run II (2016) data (new data file) after removing the duplicated data.}
+\label{B0_yields_asy_new_run12_noduplicated}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{LHCb_Run1_AND_2/invmass_B0_fit_tp_nondup}
+\caption{The fitted distribution of the $B_0$ resonance with showing the 1-$\sigma$ tolerance for the Run I and Run II  (2016) from non-duplicated data files.}
+\label{fit_B0_run12}
+\end{figure}
+\clearpage
+\noindent\textbf{24 March 2020, Tuesday}
+\\
+\\
+An amplitude analysis was performed for the LHCb Run I and Run II (2016) data using the \texttt{SignalOnlyFitter} in \texttt{AmpGen}. A \texttt{.root} file for the data is required to use for the amplitude fit. The \texttt{.root} file should contain the four-momentum of the four daughter particles and the weight for the events (here we use the \texttt{sWeights} from the \texttt{.pkl} file). The values of \texttt{genPDF} is not necessary to perform the fit. The headers were created in the same format as the \texttt{.root} event file generated from \texttt{AmpGen}. The resonance (\texttt{.opt}) file used is same as before (which is described in page \pageref{aa_test}.)
+\\
+\\
+The fit gives the results:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{amplitude_fit/resonance_ratio}
+\caption{The results of the ratio of the resonances with the regular conjugate decays for the LHCb Run I and Run II (2016) data using \texttt{AmpGen}.}
+\label{resonance_ratio}
+\end{figure}
+\\
+The amplitude fit projection gives the plots of the square of invariant masses:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{amplitude_fit/amp_fit_proj}
+\caption{The fit projection outputs for the LHCb Run I and Run II (2016) data using \texttt{AmpGen}. It doesn't distinct $D^0$ and $\bar{D}^0$ in the label: the middle two plots represent $D^0$, while the last two plots represent $\bar{D}^0$.}
+\label{amp_fit_proj}
+\end{figure}
+\\
+\\
+The fitted projections seems to work except for the case for s(DDbar), where an unexpected peak pop-out. I tried to change the steps in the amplitude and phase (in radians), it doesn't make a big difference for the results. 
+\clearpage
+\noindent The charge conjugate decays has also been analysed with the same method and resonance file. But I am not sure if I can use the same resonance file for fitting the charge conjugate decay, in which all the resonances would be treated as charge conjugate processes.
+\\
+\\
+This gives the results:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{amplitude_fit/resonance_ratio_conj}
+\caption{The results of the ratio of the resonances with the charge conjugate decays for the LHCb Run I and Run II (2016) data using \texttt{AmpGen}.}
+\label{resonance_ratio_conj}
+\end{figure}
+\\
+The amplitude fit projection gives the plots of the square of invariant masses:
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.76\linewidth]{amplitude_fit/amp_fit_proj_conj}
+\caption{The fit projection outputs for the LHCb Run I and Run II (2016) data using \texttt{AmpGen}. Note the label should treated as conjugate particles (i.e. $K^+\pi^-$ should be $K^-\pi^+$). It doesn't distinct $D^0$ and $\bar{D}^0$ in the label: the middle two plots represent $\bar{D}^0$, while the last two plots represent $D^0$.}
+\label{amp_fit_proj_conj}
+\end{figure}
+\clearpage
+ \clearpage
+\noindent\textbf{29 March 2020, Sunday}
+\\
+\\
+There are some changes and improvements made for the amplitude fittings:
+\begin{itemize}
+    \item removed the duplicated events in the LHCb data file (refer to page \pageref{rm_dup})
+    \item removed the random seed specified in the opt file
+    \begin{itemize}
+        \item This would give slightly different fit results each time, and the resonance peaks in the fit projection will be less or more obvious.
+    \end{itemize}
+    \item added error bars to the LHCb data 
+    \begin{itemize}
+        \item The error bars are invoked with Sumw2() (can also be given by default), which are given by the sqrt(sum of squares of weight) in each bin.
+    \end{itemize}
+    \item corrected the fitting methods for the conjugate data 
+    \begin{itemize}
+        \item Since CP violation is small in our decay, the conjugate decay can be turned into regular decay by putting the particles in the same order as the regular decay (Bbar0 Dbar0 D0 K PI $vs$ B0 D0 Dbar0 K PI) and flipping the three momenta, so then the conjugated data can be fitted using the same model as the regular data.
+    \end{itemize}
+    \item fitted data for all the events by removing the resonance with a fit fraction less than 3$\sigma$
+    \item plot more fit projections in the order of
+    
+    s($D^0\bar{D}^0$), s($D^0K^+$), s($D^0\pi^-$), s($\bar{D}^0K^+$), s($\bar{D}^0\pi^-$), s($K^+\pi^-$), 
+    
+    s($D^0\bar{D}^0K^+$), s($D^0\bar{D}^0\pi^-$), s($D^0K^+\pi^-$),s($\bar{D}^0K^+\pi^-$)
+    
+    Note: in the figure label, $D^0$,$\bar{D}^0$ are not distinguished.
+    \\
+\end{itemize}
+The fitting gives the values of the amplitudes and phases of the coupling constants of the resonances, and the fit fractions of the single and interfered resonances. The fit fraction of a single resonance $j$ is defined as 
+\begin{equation}
+    f_j = \frac{\int|\mathcal{A}_j|^2 \mathcal{R}_4(\bm{x})d^5\bm{x}}{\int|\sum_k\mathcal{A}_k|^2\mathcal{R}_4(\bm{x})d^5\bm{x}},\;\;\;\;\;\text{and}\;\;\;\;\;\mathcal{A}_n = A_n e^{i\phi_n} \mathcal{M}_n,
+\end{equation}
+where $A_n$ and $\phi_n$ is the amplitude and phase of the coupling constants of the resonance $n$ in the .opt file (first introduced in page \pageref{coupling_const}), $\mathcal{M}_i$ is the amplitude describing the dynamics of the decay (can be calculated from AmpGen), $\mathcal{R}_4(\bm{x})$ is the function representing the four-body phase space and the integration is taken over the five phase space variable (here we use the CM variables). Interference between the complex terms in the denominator would increase or decrease the value of denominator, and may lead to $\sum_{j=1}^N f_j \neq 100\%$. 
+See foot note for more information on the fit fraction for 3-body \autocite{fitfrac_3b} and 4-body \autocite{Aaij_2019} decays.
+\\
+\\
+Since there are not many event, the regular and conjugate decay data can be combined to give maximize the number of data to be fitted. The fit projections and fit fractions is shown in Fig.\ref{compare_all} and Fig.\ref{fit_fraction_all}, respectively. In the s($K^+\pi^-$) plot, the resonance peaks for $\psi$(3770), $\psi$(4040), $\psi$(4160) and $\psi$(4415) are managed to present, although the $\psi$(4415) has a relative larger amplitude than expected. In the s($K^+\pi^-$) plot, it shows the $K^*_0$(892) and $K^{(0)*}(800)$ (not obvious) resonances. In the s($D^0K^+$) plot, there is a $D_{\text{s2}}^-$(2573) resonance, I am not sure why this is possible given that the $K^+$ used are produced from $K^*_0$ only. The sum of the fit fractions (\texttt{Sum\_B0}) is consistent with 100\% by considering the uncertainties.
+\begin{figure}[h]
+\center
+\includegraphics*[width=1.06\linewidth]{amplitude_fit/compare_all}
+\caption{The phase-space distributions of the conjugate decay in terms of the square of invariant masses of particles.}
+\label{compare_all}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{amplitude_fit/fit_fraction_all}
+\caption{The results of fit fractions for sll the decays for LHCb Run I and Run II (2016) data, which has got a number of events = 1025, reduced Chi2=18.145.}
+\label{fit_fraction_all}
+\end{figure}
+\clearpage
+\noindent By removing the resonance with fit fraction less than 3 $\sigma$:
+\begin{figure}[h]
+\center
+\includegraphics*[width=1.06\linewidth]{amplitude_fit/compare_all2}
+\caption{The phase-space distributions of the conjugate decay in terms of the square of invariant masses of particles (after removing some resonances).}
+\label{compare_all2}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{amplitude_fit/fit_fraction_all2}
+\caption{The results of fit fractions for sll the decays for LHCb Run I and Run II (2016) data (after removing some resonances), which has got a number of events = 1025, reduced Chi2=8.22.}
+\label{fit_fraction_all2}
+\end{figure}
+\\
+\\
+The fit has also been performed for the regular and conjugate decay events separately (see Fig.\ref{compare_reg}, \ref{fit_fraction_reg} and Fig.\ref{compare_conj}, \ref{fit_fraction_conj}, respectively). It can be seen that the conjugate decay fit better than the regular decay with the $\psi$(4415) peak and the uncertainties of the fit fractions being smaller. However, due to the random seed used are different, the results could be different. A comparison could be made for the regular and conjugate decays using the same seed number. One can also find the asymmetry from the fit fractions.
+\begin{figure}[h]
+\center
+\includegraphics*[width=1.06\linewidth]{amplitude_fit/compare_reg}
+\caption{The phase-space distributions of the regular decay in terms of the square of invariant masses of particles.}
+\label{compare_reg}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{amplitude_fit/fit_fraction_reg}
+\caption{The results of fit fractions for the regular decays for LHCb Run I and Run II (2016) data, which has got a number of events = 511, reduced Chi2=-9..}
+\label{fit_fraction_reg}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=1.06\linewidth]{amplitude_fit/compare_conj}
+\caption{The phase-space distributions of the conjugate decay in terms of the square of invariant masses of particles.}
+\label{compare_conj}
+\end{figure}
+\begin{figure}[h]
+\center
+\includegraphics*[width=0.96\linewidth]{amplitude_fit/fit_fraction_conj}
+\caption{The results of fit fractions for the conjugate decays for LHCb Run I and Run II (2016) data, which has got a number of events = 474, reduced Chi2=-4.97.}
+\label{fit_fraction_conj}
+\end{figure}
+\clearpage
+ 
+

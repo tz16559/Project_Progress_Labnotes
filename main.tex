@@ -1,0 +1,33 @@
+%\documentclass[onecolumn,prl,nobalancelastpage,aps,12pt]{revtex4-1}
+\documentclass[a4paper,12pt]{article}
+\usepackage{graphicx,bm,times,amsmath}
+\usepackage[margin=0.6in,tmargin=0.3in]{geometry}
+\usepackage{csquotes}
+\usepackage[style=verbose-ibid,backend=bibtex]{biblatex}
+\bibliography{refs}
+\usepackage{hyperref}
+\usepackage{seqsplit}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+ 
+\urlstyle{same}
+
+\title{Project Labnotes}
+\author{Kylie Tailin Zhu}
+%\date{}
+
+\begin{document}
+\maketitle
+\input{paper}
+
+
+
+\printbibliography
+\bibliographystyle{naturemag}
+\def\bibsection{\vskip 6pt \setlength{\parindent}{0pt}{\section{References}} \setlength{\parindent}{12pt}}
+
+\end{document}
